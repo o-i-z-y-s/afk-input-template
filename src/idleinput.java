@@ -70,6 +70,8 @@ public class idleinput {
 				System.out.println("This delay will last " + (keyDelay/60000) + " mins. Progress: " + i + "/" + keysCount);
 			}
 
+			// The '_interval' variables here control how long each key is pressed.
+			// 'KeyEvent.VK_W' corresponds to an action on the W key. Note that you need to send a release event after a press event.
 			int w_interval = rand.nextInt(secondsRange); 
 			robot.keyPress(KeyEvent.VK_W);
 			robot.delay(100*w_interval);
