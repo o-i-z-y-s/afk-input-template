@@ -21,7 +21,8 @@ public class idleinput {
 		}
 	}
 
-	
+
+	// Clicks a 'clickCount' number of times with 'clickDelay' milliseconds between them and reports progress every 'milestone' times.
 	protected static void autoClick() {
 
 		int clickCount = 50; // the number of clicks that will be done
@@ -124,6 +125,7 @@ public class idleinput {
 	}
 	 
 
+	// The heart of the function that sets the instructions for running the script. Uncomment either 'autoclick()' or 'autoKeys()'.
 	public static void main(String args[]){
 
 		countdown();
