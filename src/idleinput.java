@@ -25,17 +25,23 @@ public class idleinput {
 	// Clicks a 'clickCount' number of times with 'clickDelay' milliseconds between them and reports progress every 'milestone' times.
 	protected static void autoClick() {
 
-		int clickCount = 50; // the number of clicks that will be done
+		int clickCount = 500; // the number of clicks that will be done
 		int clickDelay = 20; // milliseconds  between clicks
-		int milestone = 10; // after this number of clicks, progress will be reported
+		int milestone = 50; // after this number of clicks, progress will be reported
 
 		createRobot();
 
 		for (int i = 1; i <= clickCount; i++) {
 
 			robot.delay(clickDelay);
+
+			// left click
 			robot.mousePress(MouseEvent.BUTTON1_DOWN_MASK);
 			robot.mouseRelease(MouseEvent.BUTTON1_DOWN_MASK);
+
+			// right click
+			// robot.mousePress(MouseEvent.BUTTON3_DOWN_MASK);
+			// robot.mouseRelease(MouseEvent.BUTTON3_DOWN_MASK);
 
 			if (i % milestone == 0) { // prints progress during loop at the increment specified 
 				System.out.println("Progress: " + i + "/" + clickCount);
@@ -47,9 +53,7 @@ public class idleinput {
 			catch(InterruptedException e) {
 				System.out.println("got interrupted!");
 			}
-
 		}
-
 	}
 
 
@@ -57,18 +61,19 @@ public class idleinput {
 	protected static void autoKeys() {
 
 		Random rand = new Random();
-		int keyDelay = rand.nextInt(25) * 60000; // How often the keys will be entered. Uses a random number between 0 and what's entered in '.nextInt()'
+		int keyDelay;
 		int keysCount = 10; // Number of times the keys will be entered
 		int secondsRange = 10; // The upper bound of how long each key will be held for.
 		int milestone = 1; // How many repetitions before reporting progress.
 
 		createRobot();
 
-		for (int i = 1; i <= keysCount; i++) {
+		for (int i = 0; i <= keysCount; i++) {
+			keyDelay = rand.nextInt(25); // How often the keys will be entered in seconds. Uses a random number between 0 and what's entered in '.nextInt()'
 
-			// prints progress during loop at the increment specified 
+			// prints progress during loop at the increment specified by milestone
 			if (i % milestone == 0) { 
-				System.out.println("This delay will last " + (keyDelay/60000) + " mins. Progress: " + i + "/" + keysCount);
+				System.out.println("This delay will last " + getTime(keyDelay) + ". Progress: " + (i + 1) + "/" + keysCount);
 			}
 
 			// The '_interval' variables here control how long each key is pressed.
@@ -94,15 +99,13 @@ public class idleinput {
 			robot.keyRelease(KeyEvent.VK_D);
 
 			try {
-				TimeUnit.MILLISECONDS.sleep(keyDelay);
+				TimeUnit.MILLISECONDS.sleep(keyDelay * 1000);
 			}
 			catch(InterruptedException e) {
 				System.out.println("got interrupted!");
 			}
 		}
-
 	}
-
 
 	// This gives you a moment to prepare, lest the clicker seize control before your cursor is in position.
 	private static void countdown() {
@@ -124,28 +127,30 @@ public class idleinput {
 		}
 	}
 	 
+	public static String getTime(double elapsedTime) {
+		int hour = (int)elapsedTime / 60;
+		int min = hour % 60;
+		String sec = decimal.format(elapsedTime % 60);
+
+		if (elapsedTime >= 3600) { return hour + "h " + min + "m " + sec +"s"; }
+		else if (elapsedTime >= 60) { return min + "m " + sec +"s"; }
+		else { return sec +"s"; }
+	}
 
 	// The heart of the function that sets the instructions for running the script. Uncomment either 'autoclick()' or 'autoKeys()'.
 	public static void main(String args[]){
 
 		countdown();
-		
+
 		long start = System.nanoTime();
 
 		// Uncomment the one you'd like to run.
 		// autoClick();
-		// autoKeys();
+		autoKeys();
 
 		double elapsedTime = ((double)System.nanoTime() - (double)start) / 1_000_000_000;
 
-		int hour = (int)elapsedTime / 60;
-		int min = hour % 60;
-		String sec = decimal.format(elapsedTime % 60);
-
-		// prints time based on number of seconds elapsed
-		if (elapsedTime >= 3600) { System.out.println("Done! " + hour + "h " + min + "m " + sec +"s elapsed"); }
-		else if (elapsedTime >= 60) { System.out.println("Done! " + min + "m " + sec +"s elapsed"); }
-		else { System.out.println("Done! " + sec +"s elapsed"); }
+		System.out.println("Done! " + getTime(elapsedTime) +" elapsed");
 	}	
 	
 }
