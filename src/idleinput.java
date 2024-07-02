@@ -62,8 +62,8 @@ public class idleinput {
 
 		Random rand = new Random();
 		int keyDelay;
-		int keysCount = 10; // Number of times the keys will be entered
-		int secondsRange = 10; // The upper bound of how long each key will be held for.
+		int keysCount = 100; // Number of times the keys will be entered
+		int holdRange = 20; // The upper bound of how long each key will be held for. Tenths of a second.
 		int milestone = 1; // How many repetitions before reporting progress.
 
 		createRobot();
@@ -78,22 +78,22 @@ public class idleinput {
 
 			// The '_interval' variables here control how long each key is pressed.
 			// 'KeyEvent.VK_W' corresponds to an action on the W key. Note that you need to send a release event after a press event.
-			int w_interval = rand.nextInt(secondsRange); 
+			int w_interval = rand.nextInt(holdRange); 
 			robot.keyPress(KeyEvent.VK_W);
 			robot.delay(100*w_interval);
 			robot.keyRelease(KeyEvent.VK_W);
 	
-			int a_interval = rand.nextInt(secondsRange); 
+			int a_interval = rand.nextInt(holdRange); 
 			robot.keyPress(KeyEvent.VK_A);
 			robot.delay(100*a_interval);
 			robot.keyRelease(KeyEvent.VK_A);
 	
-			int s_interval = rand.nextInt(secondsRange); 
+			int s_interval = rand.nextInt(holdRange); 
 			robot.keyPress(KeyEvent.VK_S);
 			robot.delay(100*s_interval);
 			robot.keyRelease(KeyEvent.VK_S);
 	
-			int d_interval = rand.nextInt(secondsRange); 
+			int d_interval = rand.nextInt(holdRange); 
 			robot.keyPress(KeyEvent.VK_D);
 			robot.delay(100*d_interval);
 			robot.keyRelease(KeyEvent.VK_D);
@@ -146,7 +146,7 @@ public class idleinput {
 
 		// Uncomment the one you'd like to run.
 		// autoClick();
-		autoKeys();
+		// autoKeys();
 
 		double elapsedTime = ((double)System.nanoTime() - (double)start) / 1_000_000_000;
 
